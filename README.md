@@ -30,8 +30,7 @@ Fertilizers play a crucial role in **agriculture and food production**, ensuring
 ## 🔧 Installation & Setup  
 Follow these steps to set up and run the project locally:  
 
-1️⃣ Clone the repository:  
-```sh
+1️⃣ Clone the repository:  ```sh
 git clone https://github.com/Thanujathota-tech/Fertilizers-Ecommerce.git
 
 2️⃣ Navigate to the project folder:
