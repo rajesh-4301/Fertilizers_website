@@ -1,0 +1,14 @@
+# Ignore database
+db.sqlite3
+
+# Ignore compiled Python files
+__pycache__/
+
+# Ignore environment files
+.env
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore settings.py if you want to exclude it from Git
+fertilizers/settings.py
