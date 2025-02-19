@@ -1,0 +1,4 @@
+Django==5.1.1
+django_autoslug==1.9.9
+django_import_export==4.2.1
+python-dotenv==1.0.1
