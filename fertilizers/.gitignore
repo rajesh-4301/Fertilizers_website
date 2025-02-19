@@ -10,5 +10,4 @@ __pycache__/
 # Ignore VS Code settings
 .vscode/
 
-# Ignore settings.py if you want to exclude it from Git
-fertilizers/settings.py
+
