@@ -1,0 +1,179 @@
+<footer class="footer-container">
+  <div class="footer-section footer-logo">
+    <img src="/static/logo test.png" alt="Fertilizers.com" class="footer-logo-img">
+    <p class="footpara">Your trusted partner for premium fertilizers that help you grow healthy plants and healthy soil. © 2024 Fertilizer Co. All Rights Reserved.</p>
+  </div>
+
+  <div class="footer-section footer-links">
+    <h3 class="footer-heading">Quick Links</h3>
+    <ul>
+      <li><a href="/products/">Shop</a></li>
+      <li><a href="/about/">About Us</a></li>
+      <li><a href="/contactus/">Contact</a></li>
+      <li><a href="/terms">Terms & Conditions</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-section footer-social">
+    <h3 class="footer-heading">Follow Us</h3>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+      <a href="https://www.instagram.com/" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://www.twitter.com/" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+      <a href="https://www.linkedin.com/" class="social-icon"><i class="fa-brands fa-linkedin"></i></a>
+    </div>
+  </div>
+
+  <div class="footer-section footer-newsletter">
+    <h3 class="footer-heading">Stay Updated</h3>
+    <form action="#">
+      <input type="email" placeholder="Enter your email" required class="newsletter-input">
+      <button type="submit" class="newsletter-button">Subscribe</button>
+    </form>
+  </div>
+</footer>
+<footer class="footer">
+<div class="icon">
+  <div id="fotIco">
+  <i class="fa-solid fa-house"></i>
+  <h5 id="h5"><a href="/products/">Home</a></h5>
+  </div>
+  <div id="fotIco">
+  <i class="fa-solid fa-user"></i>
+  <h5 id="h5"><a href="/dashboard/">Profile</a></h5>
+  </div>
+  <div id="fotIco">
+  <i class="fa-solid fa-heart"></i>
+  <h5 id="h5"><a href="/wishlist/">Likes</a></h5>
+
+  </div>
+  <div id="fotIco">
+  <i class="fa-solid fa-list"></i>
+  <h5 id="h5"><a href="/products#categories">Categories</a></h5>
+  </div>
+  <div id="fotIco">
+  <i class="fa-solid fa-cart-shopping"></i>
+  <h5 id="h5"><a href="/cart/">Cart</a></h5>
+</div>
+</div>
+</footer>
+ <style>
+  .footer{
+    color:#ffffff;
+    background-color: rgba(0, 0, 0, 0.922);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height:60px;
+    padding-top:0px;
+    z-index: 900;
+}
+#fotIco{
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    margin-top:13px;
+}
+h5{
+    font-size: 14px;
+    margin:1px;
+    color:#ffffff;
+}
+#h5 a{
+  text-decoration: none;
+  color: white;
+}
+.icon{
+    color:green;
+    display:flex;
+    font-size:22px;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+}
+.icon i{
+    color:white;
+}
+@media (min-width:768px){
+  .footer{
+      display:none;
+  }}
+@media (max-width: 480px) {
+  .footer{
+        position: sticky;
+    }
+}
+ </style>
+<script src="/static/login.js"></script>
+<script>
+  function toggleFavorite(heart) {
+      heart.classList.toggle('selected');
+   } 
+   
+  document.addEventListener("DOMContentLoaded", function() {
+      const currentUser = "{{ request.user.username }}";  // Dynamically get the logged-in user's username
+      const wishlistKey = `wishlist_items_${currentUser}`;
+      let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+  
+      // Initialize Wishlist Count on Page Load
+      updateWishlistCount();
+  
+      // Add Event Listeners to Heart Buttons
+      document.querySelectorAll(".favorite-heart").forEach(heartButton => {
+          const productCard = heartButton.closest(".product-card");
+          const product = extractProductData(productCard);
+  
+          heartButton.addEventListener("click", function() {
+              if (isInWishlist(product.details_slug)) {
+                  removeFromWishlist(product.details_slug);
+                  heartButton.classList.remove("favorited");
+                  alert("Removed from Wishlist");
+              } else {
+                  addToWishlist(product);
+                  heartButton.classList.add("favorited");
+                  alert("Added to Wishlist");
+              }
+              updateWishlistCount();
+          });
+  
+          // Highlight heart icon if the product is already in the wishlist
+          if (isInWishlist(product.details_slug)) {
+              heartButton.classList.add("favorited");
+          }
+      });
+  
+      function extractProductData(card) {
+          return {
+              image_url: card.querySelector(".product-image").src,
+              product_name: card.querySelector(".product-name").textContent,
+              product_brand: card.querySelector(".product-brand").textContent.replace("Brand:", "").trim(),
+              price_inr: card.querySelector(".product-price strike")?.textContent.replace("₹", "") || "",
+              discount_price: card.querySelector(".product-price b")?.textContent.replace("₹", "") || "",
+              details_slug: card.querySelector("a").getAttribute("href").split("/").pop(),
+          };
+      }
+  
+      function addToWishlist(product) {
+          wishlist.push(product);
+          localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+      }
+  
+      function removeFromWishlist(slug) {
+          wishlist = wishlist.filter(item => item.details_slug !== slug);
+          localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+      }
+  
+      function isInWishlist(slug) {
+          return wishlist.some(item => item.details_slug === slug);
+      }
+  
+      function updateWishlistCount() {
+          const countElement = document.querySelector('#wishlist-count');
+          if (countElement) {
+              countElement.textContent = wishlist.length;
+          }
+      }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style-type: none;
+  box-sizing: border-box;
+}
+
+.head {
+  color: white;
+  font-family: "Roboto";
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.imagelogo {
+  height: 45px;
+  width: 45px;
+  margin-left: 10px;
+  margin-bottom: 12px;
+  border-radius: 23px;
+}
+
+nav {
+  font-family: montserrat;
+  background: rgba(0, 0, 0, 0.7);
+  height: 60px;
+  width: 100%;
+}
+
+.logo {
+  color: white;
+  font-size: 30px;
+  line-height: 60px;
+  padding-left: 0px;
+  font-weight: bold;
+}
+
+nav ul {
+  float: right;
+  margin-right: 20px;
+}
+
+nav ul li {
+  display: inline-block;
+  line-height: 60px;
+  margin: 0 5px;
+}
+
+nav ul li a {
+  color: black;
+  font-size: 17px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  padding: 7px 13px;
+}
+
+a:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transition: 0.5s;
+}
+
+.checkbtn {
+  font-size: 25px;
+  color: white;
+  float: right;
+  line-height: 60px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+
+#check {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  label.logo {
+    font-size: 30px;
+    padding-left: 10px;
+  }
+
+  nav ul li a {
+    font-size: 16px;
+  }
+
+  .checkbtn {
+    display: block;
+  }
+
+  ul {
+    position: fixed;
+    width: -23%;
+    height: 40vh;
+    background-color: rgb(244, 242, 242);
+    top: 60px;
+    left: 100%;
+    text-align: center;
+    transition: all 0.5s;
+  }
+
+  nav ul li {
+    display: block;
+    margin: 30px 0;
+    line-height: 30px;
+  }
+
+  nav ul li a {
+    font-size: 20px;
+  }
+
+  a:hover {
+    background: none;
+    color: green;
+  }
+
+  #check:checked ~ ul {
+    left: 0px;
+  }
+
+  h1 {
+    padding-top: 340px;
+    color: white;
+  }
+
+  h3 {
+    color: white;
+    padding-left: 43%;
+    font-size: 20px;
+  }
+
+  .btn {
+    margin-right: 25%;
+  }
+
+  .btn a {
+    color: white;
+    background: none;
+  }
+}
+
+
+@media (min-width: 601px) {
+  h1 {
+    font-size: 55px;
+    padding-top: 250px;
+    font-weight: bold;
+    color: white;
+    margin-left: 0%;
+  }
+
+  label.logo {
+    font-size: 30px;
+    padding-left: 13px;
+  }
+
+  .head {
+    font-size: 55px;
+    padding-top: 350px;
+    color: white;
+  }
+
+  h3 {
+    color: white;
+    padding-left: 40%;
+    font-size: 20px;
+  }
+
+  .btn {
+    margin-left: 0;
+  }
+
+  .btn a {
+    color: white;
+    background: none;
+  }
+
+  nav ul li a {
+    color: white;
+    font-size: 20px;
+  }
+
+  nav ul li a:hover {
+    color: #b2f518;
+    font-size: 20px;
+  }
+  
+}
+
+h1 span {
+  color: rgb(46, 184, 3);
+}
+
+h3 {
+  margin-left: -40%;
+}
+
+/* Main About Section */
+.about-section {
+  text-align: center;
+  height: 100vh;
+  width: 98.9vw;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('about_us.jpg') no-repeat center center/cover;
+  color: white;
+  background-size: cover;
+}
+
+.about-section h1 {
+  font-size: 50px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* About Content Section */
+.about-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 120px 20px;
+}
+
+.about-text {
+  flex: 1;
+  max-width: 550px;
+  text-align: left;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.about-text h2 {
+  font-size: 35px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.about-text ul {
+  padding-left: 20px;
+  list-style-type: square;
+}
+
+.about-text ul li {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #444;
+}
+
+/* About Image Section */
+.about-image {
+  flex: 1;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-image img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Button Styling */
+.contact-btn {
+  margin-top: 30px;
+  padding: 15px 30px;
+  background-color: #28a745;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-btn:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 20px;
+  }
+  .about-section {
+    width: 99.9vw;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('aboutus_mobileview.jpg') no-repeat center center/cover;
+  }
+  .about-section h1{
+    padding-top:250px;
+    padding-left: 30px;
+    padding-right: 30px; 
+  }
+ 
+  .about-text {
+    max-width: 100%;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .about-text p{
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .about-image {
+    max-width: 90%;
+    margin-top: 20px;
+  }
+
+  .about-image img {
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .contact-btn {
+    font-size: 20px;
+    padding:5px 20px;
+    border-radius: 6px;
+  }
+
+  .about-text h2 {
+    font-size: 28px;
+    margin-top: 20px;
+    margin-bottom: 15px; /* Added margin-bottom for spacing */
+  }
+
+  .about-text ul {
+    padding-left: 0;
+    list-style-type: square;
+    text-align: left;
+    margin-top: 15px;
+  }
+
+  .about-text ul li {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  /* Ensure the "Why Choose Us?" section is not hidden */
+  .about-text ul li {
+    font-size: 16px;
+    color: #444;
+  }
+  }

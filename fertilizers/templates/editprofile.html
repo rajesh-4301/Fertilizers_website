@@ -1,0 +1,99 @@
+{%include "dashboard_header.html"%}
+<main class="content">
+    <h2 style="text-align:center;font-size:30px;">Edit profile</h2>
+    <br>
+    <center><h2 class="mobile-only" id="editpro">Edit profile</h2></center>
+    <div class="edit-form">
+        <section class="edit-profile-form">
+            <div class="profile-pic-container">
+                <div class="profile-pic" id="profilePic" style="background-image: url('placeholder-image.png');">
+                    <label for="profile-pic-upload" class="upload-icon">📷</label>
+                    <input type="file" id="profile-pic-upload" accept="image/*" onchange="updateProfilePic(event)">
+                </div>
+            </div>
+            <label for="fname"><b>Firstname</b></label>
+            <input type="text" id="fname" name="fname" value="John">
+            
+            <label for="lname"><b>Lastname</b></label>
+            <input type="text" id="lname" name="lname" value="willamson">
+           
+            <label for="email"><b>Email</b></label>
+            <input type="email" id="email" name="email" value="{{user.username}}" disabled>
+
+            <label for="phone"><b>Phone Number</b></label>
+            <input type="tel" id="phone" name="phone" value="123-456-7890">
+
+            <label for="address"><b>Address</b></label>
+            <input type="text" id="address" name="address" value="123 Street Name, City, Country">
+
+            <button id="save-profile" type="button" onclick="saveProfile()">Save Changes</button>
+            <center><a href="/dashboard/" class="back-btn">Back to Dashboard</a></center>
+        </section>
+    </div>
+</main>
+
+<script>
+function saveProfile() {
+    const username = "{{ user.username }}";
+    const profileData = {
+        fname: document.getElementById('fname').value,
+        lname: document.getElementById('lname').value,
+        fullName: document.getElementById('fname').value + " " + document.getElementById('lname').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value
+    };
+
+    localStorage.setItem(`profileData_${username}`, JSON.stringify(profileData));
+    alert("Profile updated successfully!");
+    window.location.href = "/viewprofile/";  // Redirect after saving
+}
+function updateProfilePic(event) {
+    var reader = new FileReader();
+
+    reader.onload = function() {
+        var profilePicUrl = reader.result;
+        var username = "{{ user.username }}"; // Get the logged-in username
+        console.log("Uploading profile picture for:", username); // Debugging
+
+        if (username) {
+            localStorage.setItem("profilePic_" + username, profilePicUrl); // Store profile pic for the user
+            document.getElementById('profilePic').style.backgroundImage = "url('" + profilePicUrl + "')";
+            updateAllProfilePics(profilePicUrl);
+        }
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+}
+// Function to update profile pictures across pages
+function updateAllProfilePics(imageUrl) {
+    document.querySelectorAll('.profile-pic, .profilepic').forEach(function(pic) {
+        pic.style.backgroundImage = "url('" + imageUrl + "')";
+    });
+}
+// Load profile picture when page loads
+window.onload = function() {
+    var username = "{{ user.username }}";
+    console.log("Logged-in username:", username); // Debugging
+
+    if (username) {
+        var savedPic = localStorage.getItem("profilePic_" + username);
+        console.log("Loaded profile pic for", username, ":", savedPic); // Debugging
+
+        if (savedPic) {
+            updateAllProfilePics(savedPic);
+        } else {
+            setDefaultProfilePic();  // No profile pic set yet
+        }
+    }
+};
+// Default empty profile picture
+function setDefaultProfilePic() {
+    document.querySelectorAll('.profile-pic, .profilepic').forEach(function(pic) {
+        pic.style.backgroundImage = "none"; // No image
+    });
+}
+</script>
+  
+ 
+    

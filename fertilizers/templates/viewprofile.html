@@ -1,0 +1,98 @@
+{%include "dashboard_header.html"%}
+<main class="content">
+    <h2 style="text-align:center; font-size:30px;">View profile</h2>
+    <br>
+    <center><h2 class="mobile-only" id="viewpro">View profile</h2></center>
+
+    <div class="edit-form">
+        <section class="edit-profile-form">
+          <div class="profile-pic-container">
+            <div class="profilepic" style="background-image: url('placeholder-image.png');"></div>
+        </div>
+            <label><b>First Name:</b></label>
+            <p id="view-fname">John</p>
+            
+            <label><b>Last Name:</b></label>
+            <p id="view-lname">williamson</p>
+            
+            <label><b>Email:</b></label>
+            <p>{{user.username}}</p>
+
+            <label><b>Phone Number:</b></label>
+            <p id="view-phone">123-456-7890</p>
+
+            <label><b>Address:</b></label>
+            <p id="view-address">123 Street Name, City, Country</p>
+
+            <button type="button"><a href="/editprofile/" class="editpro">Edit profile</a></button>
+            <center><a href="/dashboard/" class="back-btn">Back to Dashboard</a></center>
+        </section>
+    </div>
+</main>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const username = "{{ user.username }}";
+    const savedData = localStorage.getItem(`profileData_${username}`);
+
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        document.getElementById('view-fname').innerText = data.fname;
+        document.getElementById('view-lname').innerText = data.lname;
+        document.getElementById('view-email').innerText = data.email;
+        document.getElementById('view-phone').innerText = data.phone;
+        document.getElementById('view-address').innerText = data.address;
+    }
+});
+  function updateProfilePic(event) {
+    var reader = new FileReader();
+
+    reader.onload = function() {
+        var profilePicUrl = reader.result;
+        var username = "{{ user.username }}"; // Get the logged-in username
+        console.log("Uploading profile picture for:", username); // Debugging
+
+        if (username) {
+            localStorage.setItem("profilePic_" + username, profilePicUrl); // Store profile pic for the user
+            document.getElementById('profilePic').style.backgroundImage = "url('" + profilePicUrl + "')";
+            updateAllProfilePics(profilePicUrl);
+        }
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// Function to update profile pictures across pages
+function updateAllProfilePics(imageUrl) {
+    document.querySelectorAll('.profile-pic, .profilepic').forEach(function(pic) {
+        pic.style.backgroundImage = "url('" + imageUrl + "')";
+    });
+}
+
+// Load profile picture when page loads
+window.onload = function() {
+    var username = "{{ user.username }}";
+    console.log("Logged-in username:", username); // Debugging
+
+    if (username) {
+        var savedPic = localStorage.getItem("profilePic_" + username);
+        console.log("Loaded profile pic for", username, ":", savedPic); // Debugging
+
+        if (savedPic) {
+            updateAllProfilePics(savedPic);
+        } else {
+            setDefaultProfilePic();  // No profile pic set yet
+        }
+    }
+};
+
+// Default empty profile picture
+function setDefaultProfilePic() {
+    document.querySelectorAll('.profile-pic, .profilepic').forEach(function(pic) {
+        pic.style.backgroundImage = "none"; // No image
+    });
+}
+</script>   
+
+  
+  

@@ -1,0 +1,219 @@
+{% include "dashboard_header.html" %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    .wishlist-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 250px;
+        transition: transform 0.3s;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .product-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .product-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+
+    .product-details {
+        padding: 10px 0;
+    }
+
+    .product-name {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px 0;
+    }
+
+    .product-brand, .product-price {
+        font-size: 14px;
+        margin: 3px 0;
+    }
+
+    .product-price strike {
+        color: red;
+    }
+
+    .product-rating i {
+        color: gold;
+        font-size: 14px;
+    }
+
+    .buy-now {
+        background-color: #1e9c3b;
+        color: white;
+        border: none;
+        padding: 8px 25px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-top: 7px;
+    }
+
+    .buy-now:hover {
+        background-color: #158a2e;
+    }
+
+    .wishlist-heart {
+        color: red;
+        font-size: 25px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    .wishlist-heart:hover {
+        transform: scale(1.2);
+    }
+</style>
+
+<main class="content">
+    <h1 style="text-align: center;" id="myorders">Wish List</h1>
+    <section class="wishlist-container" id="wishlist-container"></section>
+    <center><a href="/dashboard/" class="back-btn">Back to Dashboard</a></center>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentUser = "{{ request.user.username }}";  // Dynamically get the logged-in user's username
+        const wishlistKey = `wishlist_items_${currentUser}`;
+        const wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+        const wishlistContainer = document.getElementById("wishlist-container");
+
+        // Update Wishlist Count
+        updateWishlistCount(wishlist.length);
+
+        if (wishlist.length === 0) {
+            wishlistContainer.innerHTML = "<p>Your wishlist is empty!</p>";
+        } else {
+            wishlist.forEach(product => {
+                wishlistContainer.innerHTML += `
+                    <div class="product-card" data-slug="${product.details_slug}">
+                        <div class="product-image-wrapper">
+                            <a href="/details-page/${product.details_slug}">
+                                <img src="${product.image_url}" alt="${product.product_name}" class="product-image">
+                            </a>
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">${product.product_name}</h3>
+                            <div class="product-brand">Brand: ${product.product_brand}</div>
+                            <div class="product-price"><strike>₹${product.price_inr}</strike> <b>₹${product.discount_price}</b></div>
+                            <div class="product-rating">
+                             <i class="fa fa-star"></i>
+                             <i class="fa fa-star"></i>
+                             <i class="fa fa-star"></i>
+                             <i class="fa fa-star-half-alt"></i>
+                             <i class="fa fa-star-o"></i>
+                            </div>
+                            <button class="buy-now" onclick="buyNow('${product.details_slug}')">Buy Now</button>
+                            <br>
+                            <button class="wishlist-heart" onclick="toggleWishlist('${product.details_slug}')">❤️</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    });
+
+    function toggleWishlist(slug) {
+        const currentUser = "{{ request.user.username }}";
+        const wishlistKey = `wishlist_items_${currentUser}`;
+        let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+        const index = wishlist.findIndex(item => item.details_slug === slug);
+
+        if (index > -1) {
+            wishlist.splice(index, 1);
+            alert("Removed from Wishlist");
+            document.querySelector(`.product-card[data-slug='${slug}']`).remove();
+        } else {
+            const product = {
+                details_slug: slug,
+                product_name: "Product Name",  // Replace with dynamic data
+                product_brand: "Brand Name",   
+                price_inr: "1000",             
+                discount_price: "800",         
+                image_url: "product.jpg"       
+            };
+            wishlist.push(product);
+            alert("Added to Wishlist");
+        }
+
+        localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+        updateWishlistCount(wishlist.length);
+
+        if (wishlist.length === 0) {
+            document.getElementById("wishlist-container").innerHTML = "<p>Your wishlist is empty!</p>";
+        }
+    }
+
+    function updateWishlistCount(count) {
+        const wishlistCountElement = document.getElementById("wishlist-count");
+        if (wishlistCountElement) {
+            wishlistCountElement.textContent = count;
+        }
+    }
+
+    function buyNow(slug) {
+        window.location.href = `/details-page/${slug}`;
+    }
+    // JavaScript to handle profile picture upload
+    const fileInput = document.getElementById('fileInput');
+    const profilePic = document.getElementById('profilePic');
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          profilePic.innerHTML = `<img src="${reader.result}" alt="Profile Picture">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // JavaScript to toggle sidebar on mobile
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+      overlay.classList.toggle('show');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('show');
+      overlay.classList.remove('show');
+    });
+  </script>
+
+

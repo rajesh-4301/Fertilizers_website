@@ -1,0 +1,156 @@
+.secPage{
+    height:100vh;
+    width:100%;
+    background-image:url('/static/loginimg1.jpg');
+    background-size: cover;
+    background-position:0ch;
+    padding:30px;
+    display: flex;
+    justify-content: center;
+  }
+  .heading{
+    color:green;
+    align-self:center ;
+    font-family: "Roboto";
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    padding-top:38px;
+    padding-bottom: 20px;
+  }
+  .card{
+    display: flex;
+    background-color:white;
+    height:500px;
+    width:80%;
+    margin-top:60px;
+    border-width: 1px;
+    border-color:gainsboro;
+    border-radius: 8px;
+    box-shadow: rgba(18, 35, 40, 0.20) 2px 4px 6px 2px, rgba(16, 33, 40, 0.40) 2px 4px 16px 4px;
+  }
+  @media (orientation:portrait){
+    .secPage{
+        height:100vh;
+        width:100%;
+        background-size: cover;
+    }
+    .card{
+      display: flex;
+      background-color:white;
+      height:420px;
+      width:80%;
+      margin-top:100px;
+      border-color:gainsboro;
+      border-width: 1px;
+      border-radius: 8px;
+      box-shadow: rgba(18, 35, 40, 0.20) 2px 4px 6px 2px, rgba(16, 33, 40, 0.40) 2px 4px 16px 4px;
+
+    }
+    .span{
+      color:blue;
+      font-style: italic;
+      text-decoration: none;
+      padding-left:10px;
+    }
+    .typeBox{
+      height:40px;
+      width:60%;
+      background-color: white;
+      border-color:black;
+      border-radius: 3px;
+      border-width: 2px;
+      color:black;
+      margin-bottom:20px;
+    }
+  }
+  .icon{
+    font-size: 20px;
+    padding:10px;
+    padding-left: 15px;
+    color:green;
+  }
+  .input-icons i {
+    position: absolute;
+  }
+  .input-icons {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 3px;
+  }
+  .forms{
+    text-align: center;
+  }
+  .email{
+    font-family: "Roboto";
+    font-size: 18px;
+    padding-top: 15px;
+    font-weight: bold;
+  }
+  
+  .button{
+    color:white;
+    background-color: green;
+    height: 38px;
+    width:100px;
+    margin-top: 18px;
+    margin-bottom:5px;
+    border-color:grey;
+    border-width: 1px;
+    border-radius: 4px;
+    font-weight: bold;
+    box-shadow:3px 3px 3px black;
+  }
+  button:hover{
+    color:aliceblue;
+    background-color: green;
+    box-shadow: none;
+  }
+  .para{
+    font-family: "Roboto";
+    font-size: 15px;
+    color:black;
+    padding-top:20px;
+    font-weight: bold;
+  }
+  .span{
+    color:blue;
+    font-style: italic;
+    text-decoration: none;
+    padding-left:10px;
+  }
+  @media (orientation:landscape){
+    .span1{
+      color:blue;
+      font-style: italic;
+      text-decoration: none;
+      padding-left:4cqb;
+    }
+    .typeBox{
+      height:40px;
+      width:50%;
+      background-color:rgba(255,255,255,0.5);
+      border-radius: 3px;
+      color:black;
+      border-width: 2px;
+      margin-bottom: 15px;
+    }
+    
+    .card{
+      display: flex;
+      background-color:white;
+      height:400px;
+      width:40%;
+      margin-top:67px;
+      border-color:gainsboro;
+      border-width: 1px;
+      border-radius: 8px;
+      box-shadow: rgba(18, 35, 40, 0.20) 2px 4px 6px 2px, rgba(16, 33, 40, 0.40) 2px 4px 16px 4px;
+
+    }
+  }

@@ -1,0 +1,51 @@
+{%include "dashboard_header.html"%}
+    <main class="content">
+      <header class="content-header">
+        <h1>Welcome, {{user.username}}</h1>
+      </header>
+      <section class="cards">
+        <div class="card" id="card1">
+          <i class="fas fa-home icon"></i>
+          <h3><a href="/products/">Home</a></h3>
+          <p>Go back to Products</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-user icon"></i>
+          <h3><a href="/viewprofile/">View Profile</a></h3>
+          <p>Check and update your profile information.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-edit icon"></i>
+          <h3><a href="/editprofile/">Edit Profile</a></h3>
+          <p>Modify your personal details and preferences.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-box icon"></i>
+          <h3><a href="/myorders/">My Orders</a></h3>
+          <p>View and track your recent orders.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-heart icon"></i>
+          <h3><a href="/wishlist/">Wishlist</a></h3>
+          <p>View your saved items.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-shopping-cart icon"></i>
+          <h3><a href="/cart/">Cart</a></h3>
+          <p>Check out your shopping cart.</p>
+        </div>
+        <div class="card">
+          <i class="fa-solid fa-list icon"></i>
+          <h3><a href="/products/#categories">Categories</a></h3>
+          <p>Check out different categories of Fertilizers.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-sign-out-alt icon"></i>
+          <h3><a href="{% url 'logout' %}">logout</a></h3>
+          <p>you will be logged out</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

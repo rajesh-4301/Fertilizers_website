@@ -1,0 +1,109 @@
+{% include "dashboard_header.html" %}
+<main class="content">     
+    <h1 style="text-align: center;" id="myorders">My Orders</h1>
+    <center><h2 class="mobile-only" id="orderpro">My Orders</h2></center> 
+    <section class="order-list">
+        <!-- Orders will be dynamically added here -->
+    </section>
+    <center><a href="/dashboard/" class="back-btn">Back to Dashboard</a></center>
+</main>
+
+<style>
+    .order-list {
+        display: flex;
+        flex-wrap: wrap; 
+        gap: 15px; 
+        justify-content: space-between; 
+    }
+    
+    .order-card {
+        width: 25%; 
+        min-width: 250px; 
+        display: flex;
+        align-items: center;
+        border: 1px solid #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        padding: 10px;
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+
+    @media (max-width: 768px) {
+        .order-card {
+            width: 50%;
+        }
+    }
+    
+
+    @media (max-width: 480px) {
+        .order-card {
+            width: 95%;
+        }
+    }
+    
+    
+    .order-card img {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        margin-right: 10px; 
+    }
+
+    .order-info {
+        flex-grow: 1;
+    }
+
+    .remove-order {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 14px; 
+        color: black; 
+        font-weight: bold;
+    }
+    
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const username = "{{ user.username }}";
+        const orders = JSON.parse(localStorage.getItem("orders_" + username)) || [];
+        const ordersContainer = document.querySelector(".order-list");
+        ordersContainer.innerHTML = ""; 
+
+        function updateLocalStorage() {
+            localStorage.setItem("orders_" + username, JSON.stringify(orders));
+        }
+
+        if (orders.length === 0) {
+            ordersContainer.innerHTML = "<p>You have no orders yet.</p>";
+        } else {
+            orders.forEach((order, index) => {
+                const orderCard = document.createElement("div");
+                orderCard.className = "order-card";
+                orderCard.innerHTML = `
+                    <span class="remove-order" data-index="${index}">✖</span>
+                    <img src="${order.image}" alt="${order.name}">
+                    <div class="order-info">
+                        <h3>Order #${10000 + index}</h3>
+                        <p style="color:green;font-size:15px;"><b>${order.name}</b></p>
+                        <p>Quantity: ${order.quantity}</p>
+                        <p>Total: ₹${order.price * order.quantity}</p>
+                        <p>Status:<span class="order-status">${order.status}</span></p>
+                    </div>
+                `;
+
+               
+                orderCard.querySelector(".remove-order").addEventListener("click", function() {
+                    orders.splice(index, 1); 
+                    updateLocalStorage(); 
+                    location.reload();
+                });
+
+                ordersContainer.appendChild(orderCard);
+            });
+        }
+    });
+</script>

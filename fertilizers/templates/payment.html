@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: white;
+      flex-direction: column;
+    }
+    body::-webkit-scrollbar{
+      display: none;
+      overflow: auto;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 300px;
+      margin-top: 5%;
+      margin-bottom: 5%;
+    }
+    .container img{
+      width: 20px;
+      color: white;
+    }
+    .container h2 {
+      text-align: center;
+      
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .payment-methods {
+      margin-top: 20px;
+      
+    }
+    .payment-method {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .payment-method:hover {
+      background-color: #e2e6ea;
+    }
+    .payment-method img {
+      margin-right: 10px;
+    }
+    .order-summary {
+      display: none;
+      margin-top: 20px;
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .order-summary h3 {
+      margin-top: 0;
+    }
+    .order-summary .details {
+      margin-bottom: 20px;
+    }
+    .order-summary .details p {
+      margin: 5px 0;
+    }
+    .order-summary img {
+        margin: 0;
+        max-width: 300px;
+        height: auto;
+        border-radius: 8px;
+    }
+    .order-summary .payment-mode,
+    .order-summary .delivery-date {
+      font-weight: bold;
+    }
+    .order-summary .product-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      text-align: left;
+      gap: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #1c692e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+        .success-message {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background-color: rgba(0, 128, 0, 0.9);
+      color: white;
+      padding: 30px;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0px 0px 20px rgba(0, 128, 0, 0.5);
+      animation: bounceFade 3s ease-out forwards;
+    }
+    
+    .success-message i {
+      font-size: 40px;
+      margin-right: 10px;
+      color: #fff;
+    }
+    
+    #product-image{
+          height:300px;
+          width:300px;
+          margin-right: 100px;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+        @media(max-width:768px){
+          #product-image{
+            height:200px;
+            width:200px;
+            margin-left: 12px;
+          }
+          #order-summary{
+            padding-bottom: 0;
+          }
+        }
+
+    @keyframes bounceFade {
+      0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+      }
+      30% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .order-summary .product-info {
+        flex-direction: column;
+        text-align: left;
+      }
+      .order-summary img {
+        margin-bottom: 20px;
+      }
+    }
+ 
+  </style>
+</head>
+<body>
+  {% include "paymentheader.html" %}
+  <div class="container">
+    <h2>Complete Your Payment</h2>
+    {% if messages %}
+    <div>
+      {% for message in messages %}
+      <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-success {% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+   {% endif %}
+    <form id="order-form" method="POST">
+      {% csrf_token %}
+      <!-- Address Form -->
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label for="street">Street (Include Area):</label>
+        <input type="text" id="street" placeholder="Enter your street" required>
+      </div>
+      <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" id="state" placeholder="Enter your state" required>
+      </div>
+      <div class="form-group">
+        <label for="zip">ZIP Code:</label>
+        <input type="text" id="zip" placeholder="Enter your ZIP code" required>
+      </div>
+
+      <!-- Payment Methods -->
+      <h4>Select Payment Method:</h4>
+
+    <div class="payment-methods">
+        <div class="payment-method" data-method="UPI" onclick="selectPaymentMethod('UPI')">
+            <img src="https://t3.ftcdn.net/jpg/05/60/50/16/360_F_560501607_x7crxqBWbmbgK2k8zOL0gICbIbK9hP6y.jpg" alt="UPI" width="70">
+            <p>UPI</p>
+        </div>
+
+        <div class="payment-method" data-method="Credit Card" onclick="selectPaymentMethod('Credit Card')">
+            <img src="https://t4.ftcdn.net/jpg/04/06/75/39/360_F_406753914_SFSBhjhp6kbHblNiUFZ1MXHcuEKe7e7P.jpg" alt="Credit Card" width="70">
+            <p>Credit/Debit Card</p>
+        </div>
+
+        <div class="payment-method" data-method="COD" onclick="selectPaymentMethod('COD')">
+            <img src="https://i.pinimg.com/736x/ab/b5/2c/abb52c0ac3fb3c96ebde3207c8992a02.jpg" alt="Cash" width="70">
+            <p>Cash on Delivery</p>
+        </div>
+    </div>
+
+    <input type="hidden" name="payment_method" id="selected_payment_method">
+
+      <!-- Card Details (Hidden by default) -->
+      <div id="card-details" style="display:none;">
+        <h4>Enter Card Details</h4>
+        <div class="form-group">
+          <label for="card-number">Card Number:</label>
+          <input type="text" id="card-number" placeholder="Card Number" required>
+        </div>
+        <div class="form-group">
+          <label for="expiry-date">Expiry Date:</label>
+          <input type="text" id="expiry-date" placeholder="MM/YY" required>
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" placeholder="CVV" required>
+        </div>
+      </div>
+
+      <!-- UPI Options (Hidden by default) -->
+      <div id="upi-options" style="display:none;">
+        <h4>Select UPI Platform:</h4>
+        <div class="payment-method" data-method="paytm">
+          <img src="https://raw.githubusercontent.com/hdpngworld/HPW/main/uploads/650d41381232a-l.png" alt="Paytm" width="40">
+          <p>Paytm</p>
+        </div>
+        <div class="payment-method" data-method="googlepay">
+          <img src="https://cdn.worldvectorlogo.com/logos/google-pay-1.svg" alt="Google Pay" width="40">
+          <p>Google Pay</p>
+        </div>
+        <div class="payment-method" data-method="phonepe">
+          <img src="https://cdn.freelogovectors.net/wp-content/uploads/2023/11/phonepe_logo-freelogovectors.net_.png" alt="PhonePe" width="40">
+          <p>PhonePe</p>
+        </div>
+        <div class="payment-method" data-method="razorpay">
+          <img src="https://media.tradly.app/images/marketplace/34521/razor_pay_icon-ICtywSbN.png" alt="Razorpay" width="40">
+          <p>Razorpay</p>
+        </div>
+      </div>
+
+      <!-- Order Summary (Hidden by default) -->
+      <div id="order-summary" class="order-summary">
+        <h3>Order Summary</h3>
+        <div class="details">
+          <div class="product-info">
+            <div>
+              <p style="color: #1d7a33; font-size: 30px;">{{details_deals.product_name}}</p>
+              <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"><i><strong>By</strong> FashionCo</i></p><br>
+              <p style="padding-bottom: 7px;">
+                <strong>Quantity:</strong>
+                <select id="quantity-selector" style="padding: 5px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </p>
+              <p id="total-price" style="padding-bottom: 7px;"><strong>Total Price:</strong>₹ {{details_deals.discount_price}}</p>              
+              <p id="delivery-address" style="padding-bottom: 7px;"><strong>Delivery Address: </strong> Not Provided Yet</p>
+              <p id="expected-date" style="padding-bottom: 7px;"><strong>Expected Delivery Date: </strong> Not Calculated</p>
+              <p class="payment-mode"><strong>Payment Mode:</strong> Not Selected Yet</p>
+            </div>
+            <center><img src="{{details_deals.image_url}}" alt="{{details_deals.product_name}}" id ="product-image"></center>
+          </div>
+        </div>
+      </div>
+
+      <!-- Place Order Button -->
+      <a href="/success/"><button type="submit" id="place-order-btn">Place Order</button></a>
+    </form>
+  </div>
+
+  <!-- Success Message -->
+  <div class="success-message" id="success-message">
+    <i class="fa-solid fa-check-circle"></i> Order Placed Successfully!
+  </div>
+  
+  <script>
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    const cardDetails = document.getElementById('card-details');
+    const upiOptions = document.getElementById('upi-options');
+    const orderSummary = document.getElementById('order-summary');
+    const deliveryAddressElement = document.getElementById('delivery-address');
+    const expectedDeliveryDateElement = document.getElementById('expected-date');
+    const paymentModeElement = document.querySelector('.order-summary .payment-mode');
+    const successMessage = document.getElementById('success-message');
+    const quantitySelector = document.getElementById('quantity-selector');
+    const totalPriceElement = document.querySelector('#total-price');
+
+    let selectedPaymentMethod = '';
+    let prices = "{{ details_deals.discount_price|default:0 }}"
+    let orderDetails = {
+        productName: "{{ details_deals.product_name }}",
+        productBrand: "{{ details_deals.product_brand }}",
+        price: parseFloat(prices), 
+        quantity: 1, // Integer
+    };
+
+    quantitySelector.addEventListener('change', updateTotalPrice);
+    
+    function updateTotalPrice() {
+      const quantity = parseInt(quantitySelector.value, 10); // Get selected quantity
+      const unitPrice = orderDetails.price; // Unit price of the product
+      const totalPrice = quantity * unitPrice; // Calculate total price
+      totalPriceElement.innerHTML = `<strong>Total Price:</strong> ₹ ${totalPrice}`;
+      orderDetails.quantity = quantity; // Update quantity in the orderDetails object
+    }
+
+
+    // Address form dynamic update
+    document.querySelectorAll('.form-group input').forEach(input => {
+      input.addEventListener('input', updateAddress);
+    });
+
+    function updateAddress() {
+      const name = document.getElementById('name').value;
+      const street = document.getElementById('street').value;
+      const state = document.getElementById('state').value;
+      const zip = document.getElementById('zip').value;
+
+      deliveryAddressElement.innerHTML = `<strong>Delivery Address: <i class="fa-solid fa-location-dot"></i> </strong> ${name}, ${street}, ${state}, ${zip}`;
+    }
+
+    // Payment method selection
+    paymentMethods.forEach(method => {
+      method.addEventListener('click', () => {
+        selectedPaymentMethod = method.getAttribute('data-method');
+        updatePaymentDetails(selectedPaymentMethod);
+      });
+    });
+
+    // Update Payment Method Details
+    function updatePaymentDetails(method) {
+      cardDetails.style.display = 'none';
+      upiOptions.style.display = 'none';
+      orderSummary.style.display = 'none';
+
+      if (method === 'Credit Card') {
+        cardDetails.style.display = 'block';
+      } else if (method === 'UPI') {
+        upiOptions.style.display = 'block';
+      }
+
+      // Show order summary after selecting payment
+      orderSummary.style.display = 'block';
+      paymentModeElement.textContent = `Payment Mode: ${method.toUpperCase()}`;
+
+      // Display expected delivery date dynamically
+      const orderDate = new Date();
+      const deliveryDate = new Date(orderDate);
+      deliveryDate.setDate(orderDate.getDate() + (Math.random() < 0.5 ? 5 : 7));  // 2-3 days delivery
+
+      const formattedDate = `${deliveryDate.getDate()}/${deliveryDate.getMonth() + 1}/${deliveryDate.getFullYear()}`;
+      expectedDeliveryDateElement.innerHTML = `<strong>Expected Delivery Date: <i class="fa-solid fa-calendar-days"></i></strong> ${formattedDate}`;
+    }
+
+  // Place Order Button logic
+  document.getElementById('place-order-btn').addEventListener('click', () => {
+  if (!selectedPaymentMethod) {
+    alert('Please select a payment method.');
+    return;
+  }
+  // Redirect to success page with a query parameter
+  window.location.href = "/success";
+});
+
+function selectPaymentMethod(method) {
+    document.getElementById("selected_payment_method").value = method;
+}
+
+</script>
+
+</body>
+</html>

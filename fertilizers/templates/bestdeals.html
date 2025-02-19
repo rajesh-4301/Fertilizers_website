@@ -1,0 +1,45 @@
+{% include "header.html" %}
+<style>
+    body::-webkit-scrollbar{
+        display: none;
+        overflow: auto;
+    }
+</style>
+<br><br>
+<!-- Best Deals Section -->
+<div class="parent">
+<section class="product-section" id="best-deals">
+    <center><h2 class="section-title">Best Deals</h2></center>
+    <br>
+    <div class="product-cards-container">
+        {%for i in deals%}
+        <div class="product-card">
+            <div class="product-image-wrapper">
+                <a href="/details-page/{{i.details_slug}}"><img src="{{i.image_url}}" alt="{{i.product_name}}" class="product-image"></a>
+                <span class="product-tag">Best Seller</span>
+            </div>
+            <div class="product-details">
+                <h3 class="product-name">{{i.product_name}}</h3>
+                <div class="product-brand">Brand:{{i.product_brand}}</div>
+                <div class="product-price"><strike style="color:red;">₹{{i.price_inr}}</strike>&nbsp;<b>₹{{i.discount_price}}</b></div>
+                <div class="product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-alt"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <a href="/details-page/{{i.details_slug}}"><button class="buy-now">Buy Now</button></a>
+                <button class="favorite-heart" onclick="toggleFavorite(this)">&#x2764;</button>
+            </div>
+        </div>
+        {%empty%}
+        <div class="no-data-container">
+        <center><p class="nodata">NO DATA FOUND</p></center>
+        </div>
+        {%endfor%}
+    </div>  
+</section>
+</div>
+<br>
+{% include "footer.html" %}

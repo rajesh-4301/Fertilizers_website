@@ -1,0 +1,37 @@
+{% include "header.html" %}
+<br><br>
+<div class="parent">
+<section class="product-section" id="best-deals">
+    <center><h2 class="section-title">Seasonal deals</h2></center>
+    <div class="product-cards-container">
+        {%for i in deals%}
+        <div class="product-card">
+            <div class="product-image-wrapper">
+                <a href="/details-page/{{i.details_slug}}"><img src="{{i.image_url}}" alt="{{i.product_name}}" class="product-image"></a>
+                <span class="product-tag">New Arrival</span>
+            </div>
+            <div class="product-details">
+                <h3 class="product-name">{{i.product_name}}</h3>
+                <div class="product-brand">brand:{{i.product_brand}}</div>
+                <div class="product-price"><strike style="color:red;">₹{{i.price_inr}}</strike>&nbsp;<b>₹{{i.discount_price}}</b></div>
+                <div class="product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-alt"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+               <a href="/details-page/{{i.details_slug}}"><button class="buy-now">Buy Now</button></a>
+                <button class="favorite-heart" onclick="toggleFavorite(this)">&#x2764;</button>
+            </div> 
+        </div>
+        {%empty%}
+        <div class="no-data-container">
+        <center><p class="nodata">NO DATA FOUND</p></center>
+        </div>
+        {%endfor%}
+    </div>
+</section>
+</div>
+<br>  
+{% include "footer.html" %}

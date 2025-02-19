@@ -1,0 +1,653 @@
+{% include "header.html" %}
+    <div class="details-page-container">
+        <div class="product-image-container">
+            <img id="product-image" src="{{details_deals.image_url}}" alt="Tomato Seed Fertilizer">
+        </div>
+    <div class="product-data-container">
+        <div class="product-category">{{details_deals.product_category}}</div>
+        <h1 class="product-name">{{details_deals.product_name}}</h1>
+        <div class="product-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-half-alt"></i>
+        </div>
+        <div class="price">₹{{details_deals.discount_price}}<sup>{{details_deals.percentage}}% Off</sup></div>
+
+        <div class="size-available">Size Available</div>
+        <div class="size-options">
+            <button onclick="selectSize('{{details_deals.available_size1}}')">{{details_deals.available_size1}}</button>
+            <button onclick="selectSize('{{details_deals.available_size2}}')">{{details_deals.available_size2}}</button>
+            <button onclick="selectSize('{{details_deals.available_size3}}')">{{details_deals.available_size3}}</button>
+            <button onclick="selectSize('{{details_deals.available_size4}}')">{{details_deals.available_size4}}</button>
+        </div>
+        
+        <input type="hidden" id="selected-size" name="selected_size">
+        
+
+        <div class="action-buttons">
+            <button class="cart-btn"><a href="#">Add to Cart</a></button>
+            <a href="#"><button class="pay-btn">Buy Now</button></a>
+        </div>
+        <style>
+            .pay-btn {
+                text-decoration: none;
+                color: white;
+            }
+            .cart-btn a{
+                text-decoration: none;
+                color: white;
+            }
+        </style>
+        <div class="product-details">
+            <div class="details-title">Product details</div>
+            <ul class="details-list">
+                <li><b>Brand</b>: {{details_deals.product_brand}}</li>
+                <li><b>Country of Origin</b>:{{details_deals.country_origin}}</li>
+                <li><b>NPK Content</b>: {{details_deals.npk_ratio}}0</li>
+                <li><b>Delivery</b>: {{details_deals.delivery_options}}</li>
+                <li><b>Packaging</b>: {{details_deals.packaging_type}}</li>
+            </ul>
+        </div>
+
+        <div class="product-description">
+            <div class="details-title">Product description</div>
+            <p>{{details_deals.description_1}}</p> 
+            <p>{{details_deals.description_2}}</p> 
+
+        </div>
+
+        <div class="additional-features">
+            <div class="details-title">Additional Features</div>
+            <ul class="details-list">
+                <li>{{details_deals.additional_feature2}}</li>
+                <li>{{details_deals.additional_feature3}}</li>
+                <li>{{details_deals.additional_feature1}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+  <div class="reviews">
+    <h2>Customer Reviews</h2>
+    <div class="customer-reviews">
+        <h3>What Customers Say</h3>
+        <div class="review-direction">
+        <div class="review">
+            <div class="review-container">
+            <img src="/static/reviewer1.avif" alt="{{details_deals.customer_reviewer1}}" id="reviewer1">
+            <div>
+            <h4>{{details_deals.customer_reviewer1}} </h4>
+            <div class="rating">
+                &#9733; &#9733; &#9733; &#9733; &#9733; 
+            </div>
+            </div>
+        </div>
+            <p>{{details_deals.customer_review1}}</p>
+        </div>
+        <div class="review">
+            <div class="review-container">
+            <img src="/static/reviewer2.jpg" alt="{{details_deals.customer_reviewer2}}" id="reviewer2">
+            <div>
+            <h4>{{details_deals.customer_reviewer2}} </h4>
+            <div class="rating">
+                &#9733; &#9733; &#9733; &#9733; &#9734; 
+            </div>
+            </div>
+            </div>
+            <p>{{details_deals.customer_review2}}</p>
+        </div>
+        
+    </div>
+    <div class="review-direction">
+        <div class="review">
+            <div class="review-container">
+            <img src="/static/reviewer3.jpg" alt="{{details_deals.customer_reviewer3}}" id="reviewer1">
+            <div>
+            <h4>{{details_deals.customer_reviewer3}} </h4>
+            <div class="rating">
+                &#9733; &#9733; &#9733; &#9733; &#9733; 
+            </div>
+            </div>
+        </div>
+            <p>{{details_deals.customer_review3}}</p>
+        </div>
+        <div class="review">
+            <div class="review-container">
+            <img src="/static/reviewer4.jpg" alt="{{details_deals.customer_reviewer4}}" id="reviewer2">
+            <div>
+            <h4>{{details_deals.customer_reviewer4}}</h4>
+            <div class="rating">
+                &#9733; &#9733; &#9733; &#9733; &#9734; 
+            </div>
+            </div>
+            </div>
+            <p>{{details_deals.customer_review4}}</p>
+        </div>
+        
+    </div>
+    <div class="review-form">
+        <h3>Leave a Review</h3>
+        <form method ="POST" action = "{% url "savereview" %}">
+            {% csrf_token %} 
+            <div class="form-details">
+                <input type="text" placeholder="Your Name" name="name" required>
+            </div>
+            <div class="form-details">
+                <textarea placeholder="Write your review here..." rows="4" name="review" required></textarea>
+            </div>
+            <div class="form-details">
+                <label>Rate the product:</label>
+                <div class="rating-details">
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1">&#9733;</label>
+                </div>
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+</div>
+  </div>
+  </div>
+  
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+    .review-container{
+        display: flex;
+        padding:10px;
+    }
+    .details-page-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        background: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        display: flex;
+        overflow: hidden;
+        flex-wrap: wrap;
+    }
+    .footer{
+        color:#ffffff;
+        background-color: rgba(0, 0, 0, 0.922);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height:60px;
+        padding-top:0px;
+        z-index: 900;
+    }
+    #fotIco{
+        display: flex;
+        flex-direction: column;
+        font-size: 18px;
+        margin-top:13px;
+    }
+    h5{
+        font-size: 14px;
+        margin:1px;
+        color:#ffffff;
+    }
+    .icon{
+        color:green;
+        display:flex;
+        font-size:22px;
+        flex-direction: row;
+        text-align: center;
+        justify-content: space-around;
+    }
+    .icon i{
+        color:white;
+    }
+
+    .product-image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to bottom, #e8f5e9, #e8f5e9);
+        padding: 30px;
+        position: relative;
+    }
+
+    .product-image-container img {
+        max-width: 80%;
+        height: auto;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+        cursor: zoom-in;
+    }
+
+    .product-image-container img:hover {
+        transform: scale(1.10);
+    }
+
+    .product-data-container {
+        flex: 1.5;
+        padding: 30px;
+    }
+
+    .product-category {
+        color: #999;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+
+    .product-name {
+        font-size: 32px;
+        color: #2d7c2d;
+        margin-bottom: 15px;
+    }
+
+    .product-rating i {
+        color: #fbc02d;
+        margin-right: 3px;
+    }
+
+    .price {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2d7c2d;
+        margin: 20px 0 20px; 
+    }
+
+    .price sup {
+        color: #ff5252;
+        font-size: 13px;
+        margin-left: 3px;
+    }
+
+    .size-available {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .size-options button {
+        margin-right: 10px;
+        margin-top: 10px;
+        background-color: #e0e0e0;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .size-options button:hover {
+        transform: scale(1.1);
+        background-color: #4a4949;
+        color: white;
+    }
+
+    .action-buttons {
+        margin-top: 30px;
+    }
+
+    .action-buttons button {
+        background-color: #2d7c2d;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .action-buttons button:hover {
+        background-color: #25a025;
+        transform: scale(1.1);
+    }
+
+    .details-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .details-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .details-list li {
+        margin-bottom: 10px;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #555;
+    }
+
+    .product-description p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+    }
+    .product-description{
+        margin: 1vw;
+    }
+    .additional-features{
+        margin: 1vw;
+    }
+    @media (min-width:768px){
+        .footer{
+            display:none;
+        }
+        nav{
+            height:60px;
+            width:100%;
+            padding:10px;
+        }
+        .main-nav-links{
+            padding-top:13px;
+        }
+        .product-image-container img:hover {
+            transform: scale(1.30);
+        }
+        .customer-reviews .review {
+            margin-bottom: 15px;
+            padding: 15px;
+            height:180px;
+            width:400px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-top:25px;
+            margin-left:15px;
+            margin-right:25px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .customer-reviews{
+            display: flex;
+            flex-direction: column;
+        }
+        .review-direction{
+            display: flex;
+            flex-direction: row;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .details-page-container {
+            flex-direction: column;
+        }
+
+        .product-image-container,
+        .product-data-container {
+            width: 100%;
+        }
+
+        .action-buttons button {
+            width: 70%;
+            margin-left: 50px;
+            margin-bottom: 10px;
+        }
+        .product-description,.additional-features{
+            margin-top: 20px;
+        }
+        .product-details{
+            margin-top: 10px;
+        }
+        .product-name{
+            font-size: 30px;
+        }
+        .product-category{
+            font-size: 12px;
+        }
+        .product-rating{
+            font-size: 18px;
+        }
+    }
+    @media (max-width: 480px) {
+        .details-page-container {
+            flex-direction: column;
+        }
+
+        .product-image-container,
+        .product-data-container {
+            width: 100%;
+        }
+
+        .action-buttons button {
+            width: 70%;
+            margin-left: 50px;
+            margin-bottom: 10px;
+        }
+        .product-description,.additional-features{
+            margin-top: 20px;
+        }
+        .product-details{
+            margin-top: 10px;
+        }
+        .product-name{
+            font-size: 30px;
+        }
+        .product-category{
+            font-size: 12px;
+        }
+        .product-rating{
+            font-size: 18px;
+        }
+        .search-container{
+            display: none;
+        }
+        .footer{
+            position: sticky;
+        }
+    }
+      .reviews {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 900px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      .reviews h2 {
+        text-align: center;
+        color:black;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      .reviews h3 {
+        text-align: center;
+        color:black;
+        font-size: 25px;
+        margin-bottom: 15px;
+      }
+      .customer-reviews .review {
+        margin-bottom: 15px;
+        padding: 15px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .customer-reviews .review h4 {
+        font-size: 16px;
+        color: #25a025;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .rating {
+        color: #ffa500;
+        font-size: 18px;
+      }
+      
+      .review-form {
+        margin-top: 20px;
+      }
+      
+      .review-form .form-details {
+        margin-bottom: 15px;
+      }
+      
+      .review-form input, .review-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      
+      .review-form .rating-details {
+        display: flex;
+        gap: 5px;
+      }
+      
+      .review-form .rating-details input {
+        display: none;
+      }
+      
+      .review-form .rating-details label {
+        font-size: 24px;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+      
+      .review-form .rating-details input:checked ~ label,
+      .review-form .rating-details label:hover,
+      .review-form .rating-details label:hover ~ label {
+        color: #ffa500;
+      }
+      
+      .review-form button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(to right, #4caf50, #45a049);
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+      
+      .review-form button:hover {
+        background-color:#2d7c2d ;
+        transform: scale(1.02);
+      }
+        
+    #reviewer1, #reviewer2 {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #25a025;
+        padding: 2px;
+        display:flex;
+        margin-right:15px;
+        flex-direction: row;
+        text-align: left;
+        margin: 10 auto; 
+        display: block; 
+      }  
+      .customer-reviews .review {
+        display: flex;
+        align-items: center;
+        flex-direction: column; 
+        text-align: center; 
+      } 
+      @media (max-width: 768px) {
+        .customer-reviews .review {
+          padding: 10px;
+        }
+        #reviewer1, #reviewer2 {
+          height: 40px; 
+          width: 40px;
+        }
+    }
+      .size-options button.selected {
+        background-color: #4caf50; 
+        color: white;
+        font-weight: bold;
+        transform: scale(1.1);
+      }
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const sizeButtons = document.querySelectorAll('.size-options button');
+    let selectedSize = null;
+
+    sizeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            sizeButtons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            selectedSize = button.textContent.trim(); // Store selected size
+        });
+    });
+
+    const username = "{{ user.username }}";
+    const product = {
+        image: "{{ details_deals.image_url }}",
+        name: "{{ details_deals.product_name }}",
+        brand: "{{ details_deals.brand_name }}",
+        price: "{{ details_deals.discount_price }}",
+        quantity: 1,
+        status: "Pending",
+        size: selectedSize
+    };
+
+    document.querySelector(".pay-btn").addEventListener("click", function(event) {
+        if (!selectedSize) {
+            alert("Please select a size before proceeding to payment.");
+            event.preventDefault();
+        } else {
+            let orders = JSON.parse(localStorage.getItem("orders_" + username)) || [];
+            product.status = "Order Confirmed";
+            orders.push(product);
+            localStorage.setItem("orders_" + username, JSON.stringify(orders));
+            window.location.href = `/payment/{{details_deals.details_slug}}?size=${selectedSize}`;
+        }
+    });
+
+    document.querySelector(".cart-btn").addEventListener("click", function(event) {
+        if (!selectedSize) {
+            alert("Please select a size before adding to cart.");
+            event.preventDefault();
+        } else {
+            let cart = JSON.parse(localStorage.getItem("cart_" + username)) || [];
+            product.size = selectedSize;
+            cart.push(product);
+            localStorage.setItem("cart_" + username, JSON.stringify(cart));
+            window.location.href = "/cart/";
+        }
+    });
+});
+function selectSize(size) {
+    document.getElementById("selected-size").value = size;
+    localStorage.setItem("selectedSize", size);
+}
+document.getElementById("buy-now-btn").addEventListener("click", function(event) {
+    let selectedSize = localStorage.getItem("selectedSize");
+    if (selectedSize) {
+        this.href = "/" + encodeURIComponent(selectedSize);
+    }
+});
+</script>
+<br><br>
+{%include "footer.html" %}
+
