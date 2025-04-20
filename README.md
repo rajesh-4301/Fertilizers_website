@@ -22,10 +22,10 @@ Fertilizers play a crucial role in **agriculture and food production**, ensuring
 - **Database:** SQL (Dataset for fertilizers)  
 
 ## 👨‍💻 Team Members & Contributions  
-- **Navuluri Meghana Reddy & Gattupalli Jagadeesh** – HTML & CSS  
+- **Navuluri Meghana Reddy & Gattupalli Jagadeesh,Mudavath Rajesh Naik** – HTML & CSS  
 - **Kandula Ramya, Kanigiri Siva Sri Prasad & Mudavath Rajesh Naik** – Dataset generation  
 - **Anil Kasindula** – JavaScript  
-- **Thanuja Thota & Anil Kasindula** – Django framework  
+- **Thanuja Thota & Anil Kasindula,Mudavath Rajesh Naik** – Django framework  
 
 ## 🔧 Installation & Setup  
 Follow these steps to set up and run the project locally:  
